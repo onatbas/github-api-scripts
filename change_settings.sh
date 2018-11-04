@@ -7,17 +7,20 @@ public_token=$(echo $config | sed -E 's/.+onatbas oauth_token: ([a-z0-9]+) .+/\1
 
 NAME="test"
 
-while getopts :n:i:p:w: option
+while getopts :n:s:i:p:w: option
 do
 	case "$option" in
+	s)
+		CONFIG=",\"private\": $OPTARG $CONFIG"
+		;;
 	i)
-		CONFIG=", \"has_issues\": $OPTARG $CONFIG"	
+		CONFIG=",\"has_issues\": $OPTARG $CONFIG"	
 		;;
 	p)
-		CONFIG=", \"has_projects\": $OPTARG $CONFIG"	
+		CONFIG=",\"has_projects\": $OPTARG $CONFIG"	
 		;;
 	w)
-		CONFIG=", \"has_wiki\": $OPTARG $CONFIG"	
+		CONFIG=",\"has_wiki\": $OPTARG $CONFIG"	
 		;;
 	n)
 		NAME="$OPTARG"

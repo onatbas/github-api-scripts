@@ -4,5 +4,5 @@ public_token=$(echo $config | sed -E 's/.+onatbas oauth_token: ([a-z0-9]+) .+/\1
 
 
 
-curl -s "https://api.github.com/user/repos?affiliation=owner" -H "authorization: Bearer $public_token"
+curl -s "https://api.github.com/user/repos?affiliation=owner&visibility=public" -H "authorization: Bearer $public_token"
 
