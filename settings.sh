@@ -1,11 +1,11 @@
 user=onatbas
 
 CONFIG=""
-
+METHOD="PATCH"
 config=$(cat ~/.config/hub)
 public_token=$(echo $config | sed -E 's/.+onatbas oauth_token: ([a-z0-9]+) .+/\1 /g')
 
-while getopts :hr:u:d:s:i:p:w:n: option
+while getopts :hxr:u:d:s:i:p:w:n: option
 do
 	case "$option" in
 	h)
@@ -17,6 +17,7 @@ do
 -i issues 1/0	: has_issues
 -p projects 1/0	: has_projects
 -u REPO_OWNER	: repo owner, can be user or organization name. Default is $user
+-x		: delete the repository
 -w wiki 1/0	: has_wiki"
 		exit
 		;;
@@ -41,6 +42,9 @@ do
 	n)
 		NAME="$OPTARG"
 		;;
+	x)
+		METHOD="DELETE"
+		;;
 	*)
 		echo "Yanlis komut. -h yap haci"
 		exit
@@ -50,4 +54,4 @@ done
 
 obj="{ \"name\": \"$NAME\" "$CONFIG" }"
 
-curl -X PATCH -d "$obj" https://api.github.com/repos/$user/$NAME -H "authorization: Bearer $public_token"
+curl -X "$METHOD" -d "$obj" https://api.github.com/repos/$user/$NAME -H "authorization: Bearer $public_token"
