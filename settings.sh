@@ -5,7 +5,7 @@ METHOD="PATCH"
 config=$(cat ~/.config/hub)
 public_token=$(echo $config | sed -E 's/.+onatbas oauth_token: ([a-z0-9]+) .+/\1 /g')
 
-while getopts :hxr:u:d:s:i:p:w:n: option
+while getopts :haxr:u:d:s:i:p:w:n: option
 do
 	case "$option" in
 	h)
@@ -18,8 +18,12 @@ do
 -p projects 1/0	: has_projects
 -u REPO_OWNER	: repo owner, can be user or organization name. Default is $user
 -x		: delete the repository
+-a		: use repo name of git repo you execute this command from
 -w wiki 1/0	: has_wiki"
 		exit
+		;;
+	a)
+		NAME=$(git remote get-url origin | sed -E "s/.*\/([^\.]+).*/\1/g")
 		;;
 	r)
 		CONFIG=",\"name\": \"$OPTARG\" $CONFIG"
