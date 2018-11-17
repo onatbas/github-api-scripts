@@ -9,7 +9,7 @@ description=""
 public="true"
 files=""
 id=""
-while getopts :d:f:x:pe: option
+while getopts :d:f:x:cpe: option
 do
 	case "$option" in
 	x)
@@ -26,6 +26,10 @@ do
 	d)
 		description="$OPTARG"
 		;;
+	c)
+		METHOD="POST"
+		files=",\"files\": { \"example\": {\"content\": \"test\"} }"
+		;;
 	h)
 		echo "Available options:"
 		exit
@@ -39,8 +43,9 @@ done
 
 body="{
 	\"description\": \"$description\",
-	\"public\": $public,
-	\"files\": { \"example\": {\"content\": \"test\"} }
+	\"public\": $public
+	$files
+
 }"
 
 result=$(curl -s -X "$METHOD" -d "$body" https://api.github.com/gists"$id" -H "authorization: Bearer $public_token")
