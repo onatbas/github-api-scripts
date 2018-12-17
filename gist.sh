@@ -9,7 +9,7 @@ description=""
 public="true"
 files=""
 id=""
-while getopts :d:f:x:cpe: option
+while getopts :d:f:x:chpe: option
 do
 	case "$option" in
 	x)
@@ -31,7 +31,14 @@ do
 		files=",\"files\": { \"example\": {\"content\": \"test\"} }"
 		;;
 	h)
-		echo "Available options:"
+		echo "Available options:
+-x <NAME>	: delete a gist
+-e <NAME>	: edit a gist
+-p		: set public=false
+-d <DESC>	: Set description
+-c 		: Create a new gist
+-h		: help
+"
 		exit
 		;;
 	*)
